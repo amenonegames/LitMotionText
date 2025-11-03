@@ -1,0 +1,14 @@
+{
+  "name": "com.amenone.litmotiontext",
+  "displayName": "litmotiontext",
+  "version": "0.1.0",
+  "unity": "2022.1",
+  "description": "description.",
+  "author": {
+    "name": "amenonegames",
+    "url": "https://github.com/amenonegames/LitMotionText"
+  },
+  "dependencies": {
+    "com.annulusgames.lit-motion":"2.0.1"
+  }
+}
