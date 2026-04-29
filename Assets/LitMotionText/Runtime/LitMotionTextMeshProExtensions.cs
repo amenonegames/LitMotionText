@@ -30,7 +30,7 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].color = x;
@@ -49,7 +49,7 @@ namespace amenone.litmotiontext
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
             animator.SetInitialCol(initialValue);
-            animator.IncrementMotionCount();
+ 
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].color = x;
@@ -68,7 +68,7 @@ namespace amenone.litmotiontext
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
             animator.SetInitialAlpha(initialValue);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].color.a = x;
@@ -87,7 +87,7 @@ namespace amenone.litmotiontext
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
             animator.SetInitialCol(initialValue);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].color.a = x;
@@ -106,7 +106,7 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].tangent = x;
@@ -125,7 +125,7 @@ namespace amenone.litmotiontext
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
             animator.SetInitialTangent(initialValue);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].tangent = x;
@@ -143,7 +143,7 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].uv3 = x;
@@ -162,7 +162,7 @@ namespace amenone.litmotiontext
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
             animator.SetInitialUV3(defaultValue);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].uv3 = x;
@@ -181,7 +181,7 @@ namespace amenone.litmotiontext
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
             animator.SetInitialPosition(initialValue);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].position = x;
@@ -208,7 +208,7 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].position = x;
@@ -235,7 +235,6 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.IncrementMotionCount();
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].position.x = x;
@@ -262,7 +261,7 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].position.y = x;
@@ -289,7 +288,7 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].position.z = x;
@@ -316,7 +315,7 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].rotation = x;
@@ -335,7 +334,7 @@ namespace amenone.litmotiontext
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
             animator.SetInitialRotation(Quaternion.Euler(initialValue));
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].rotation = Quaternion.Euler(x);
@@ -362,7 +361,7 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].rotation = Quaternion.Euler(x);
@@ -389,7 +388,7 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 var eulerAngles = animator.charInfoArray[charIndex.Value].rotation.eulerAngles;
@@ -418,7 +417,7 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 var eulerAngles = animator.charInfoArray[charIndex.Value].rotation.eulerAngles;
@@ -447,7 +446,7 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 var eulerAngles = animator.charInfoArray[charIndex.Value].rotation.eulerAngles;
@@ -468,7 +467,7 @@ namespace amenone.litmotiontext
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
             animator.SetInitialScale( initialValue);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].scale = x;
@@ -495,7 +494,7 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].scale = x;
@@ -522,7 +521,7 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].scale.x = x;
@@ -549,7 +548,7 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].scale.y = x;
@@ -576,7 +575,7 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.IncrementMotionCount();
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].scale.z = x;

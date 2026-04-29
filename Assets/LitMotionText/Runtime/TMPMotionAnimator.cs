@@ -39,6 +39,7 @@ namespace amenone.litmotiontext
             if (textToAnimator.TryGetValue(text, out var animator))
             {
                 animator.Reset();
+                animator.refCount++;
                 return animator;
             }
 
@@ -50,6 +51,9 @@ namespace amenone.litmotiontext
             // set target
             animator.target = text;
             animator.Reset();
+
+            // increment ref count
+            animator.refCount++;
 
             // add to array
             if (tail == animators.Length)
@@ -172,7 +176,6 @@ namespace amenone.litmotiontext
             Reset();
         }
 
-        
         public void SetInitialCol( Color col)
         {
             initialColor = col;
@@ -227,13 +230,7 @@ namespace amenone.litmotiontext
             }
 
             updateAction = UpdateCore;
-            completeAction = OnMotionComplete;
-        }
-
-        void OnMotionComplete()
-        {
-            DecrementMotionCount();
-            UpdateCore();
+            completeAction = CompleteCore;
         }
 
         TMP_Text target;
@@ -241,7 +238,7 @@ namespace amenone.litmotiontext
         internal readonly Action completeAction;
         internal CharInfo[] charInfoArray;
         bool isDirty;
-        int activeMotionCount;
+        int refCount;
 
         TMPMotionAnimator nextNode;
 
@@ -282,19 +279,6 @@ namespace amenone.litmotiontext
             isDirty = true;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void IncrementMotionCount()
-        {
-            activeMotionCount++;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DecrementMotionCount()
-        {
-            activeMotionCount--;
-            if (activeMotionCount < 0) activeMotionCount = 0;
-        }
-
         public void Reset()
         {
             for (int i = 0; i < charInfoArray.Length; i++)
@@ -327,7 +311,7 @@ namespace amenone.litmotiontext
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         bool TryUpdate()
         {
-            if (target == null) return false;
+            if (target == null || refCount <= 0) return false;
 
             if (isDirty)
             {
@@ -335,7 +319,7 @@ namespace amenone.litmotiontext
                 isDirty = false;
             }
 
-            return activeMotionCount > 0;
+            return true;
         }
 
         private Color GetTextMeshColor(int index)
@@ -436,8 +420,13 @@ namespace amenone.litmotiontext
 #endif
                 target.UpdateGeometry(textInfo.meshInfo[i].mesh, i);
             }
+            isDirty = false;
+        }
+        void CompleteCore()
+        {
+            UpdateCore();
+            refCount--;
         }
     }
-    
 }
 
