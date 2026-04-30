@@ -1,6 +1,6 @@
 namespace amenone.litmotiontext
 {
-    public enum ColorPattern
+    public enum VertexPattern
     {
         Uniform,
         FadeLeftToRight,

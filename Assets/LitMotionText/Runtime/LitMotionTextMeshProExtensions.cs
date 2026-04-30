@@ -22,7 +22,7 @@ namespace amenone.litmotiontext
         /// <param name="text">Target TMP_Text</param>
         /// <param name="charIndex">Target character index</param>
         /// <returns>Handle of the created motion data.</returns>
-        public static MotionHandle BindToTMPCharColorCustom<TOptions, TAdapter>(this MotionBuilder<Color, TOptions, TAdapter> builder, TMP_Text text, int charIndex, ColorPattern colorPattern = ColorPattern.Uniform)
+        public static MotionHandle BindToTMPCharColorCustom<TOptions, TAdapter>(this MotionBuilder<Color, TOptions, TAdapter> builder, TMP_Text text, int charIndex, VertexPattern colorPattern = VertexPattern.Uniform)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<Color, TOptions>
         {
@@ -41,7 +41,7 @@ namespace amenone.litmotiontext
             return handle;
         }
 
-        public static MotionHandle BindToTMPCharColorCustom<TOptions, TAdapter>(this MotionBuilder<Color, TOptions, TAdapter> builder, TMP_Text text, int charIndex, Color initialValue, ColorPattern colorPattern = ColorPattern.Uniform)
+        public static MotionHandle BindToTMPCharColorCustom<TOptions, TAdapter>(this MotionBuilder<Color, TOptions, TAdapter> builder, TMP_Text text, int charIndex, Color initialValue, VertexPattern colorPattern = VertexPattern.Uniform)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<Color, TOptions>
         {
@@ -61,7 +61,7 @@ namespace amenone.litmotiontext
             return handle;
         }
 
-        public static MotionHandle BindToTMPCharColorCustomA<TOptions, TAdapter>(this MotionBuilder<float, TOptions, TAdapter> builder, TMP_Text text, int charIndex, float initialValue, ColorPattern colorPattern = ColorPattern.Uniform)
+        public static MotionHandle BindToTMPCharColorCustomA<TOptions, TAdapter>(this MotionBuilder<float, TOptions, TAdapter> builder, TMP_Text text, int charIndex, float initialValue, VertexPattern colorPattern = VertexPattern.Uniform)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<float, TOptions>
         {
@@ -81,7 +81,7 @@ namespace amenone.litmotiontext
             return handle;
         }
 
-        public static MotionHandle BindToTMPCharColorCustomA<TOptions, TAdapter>(this MotionBuilder<float, TOptions, TAdapter> builder, TMP_Text text, int charIndex, Color initialValue, ColorPattern colorPattern = ColorPattern.Uniform)
+        public static MotionHandle BindToTMPCharColorCustomA<TOptions, TAdapter>(this MotionBuilder<float, TOptions, TAdapter> builder, TMP_Text text, int charIndex, Color initialValue, VertexPattern colorPattern = VertexPattern.Uniform)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<float, TOptions>
         {
@@ -139,7 +139,7 @@ namespace amenone.litmotiontext
             return handle;
         }
 #endif
-        public static MotionHandle BindToTMPCharUv3Custom<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex)
+        public static MotionHandle BindToTMPCharUv3Custom<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex, VertexPattern uv3Pattern = VertexPattern.Uniform)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<Vector2, TOptions>
         {
@@ -147,6 +147,7 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
+            animator.SetUv3Pattern(charIndex, uv3Pattern);
 
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
@@ -157,7 +158,7 @@ namespace amenone.litmotiontext
             return handle;
         }
 
-        public static MotionHandle BindToTMPCharUv3Custom<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex,Vector2 defaultValue)
+        public static MotionHandle BindToTMPCharUv3Custom<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex, Vector2 defaultValue, VertexPattern uv3Pattern = VertexPattern.Uniform)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<Vector2, TOptions>
         {
@@ -166,6 +167,7 @@ namespace amenone.litmotiontext
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
             animator.SetInitialUV3(defaultValue);
+            animator.SetUv3Pattern(charIndex, uv3Pattern);
 
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
