@@ -9,6 +9,6 @@
     "url": "https://github.com/amenonegames/LitMotionText"
   },
   "dependencies": {
-    "com.annulusgames.lit-motion":"2.0.1"
+    "com.annulusgames.lit-motion":"2.1.0"
   }
 }

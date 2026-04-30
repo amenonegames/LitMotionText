@@ -43,19 +43,14 @@ namespace amenone.litmotiontext
                 return animator;
             }
 
-            // get or create animator
             animator = rootNode ?? new();
             rootNode = animator.nextNode;
             animator.nextNode = null;
 
-            // set target
             animator.target = text;
             animator.Reset();
-
-            // increment ref count
             animator.refCount++;
 
-            // add to array
             if (tail == animators.Length)
             {
                 Array.Resize(ref animators, tail * 2);
@@ -63,8 +58,41 @@ namespace amenone.litmotiontext
             animators[tail] = animator;
             tail++;
 
-            // add to dictionary
             textToAnimator.Add(text, animator);
+
+            return animator;
+        }
+
+        // Initializes all vertex colors to `from`, reserves refCount for motionCount motions.
+        internal static TMPMotionAnimator GetForPattern(TMP_Text text, int charIndex, int motionCount, Color from)
+        {
+            var animator = Get(text);
+            animator.EnsureCapacity(charIndex + 1);
+            animator.refCount += motionCount - 1;
+
+            ref var info = ref animator.charInfoArray[charIndex];
+            info.colorBL = from;
+            info.colorTL = from;
+            info.colorTR = from;
+            info.colorBR = from;
+            animator.SetDirty();
+
+            return animator;
+        }
+
+        // Initializes all vertex UV3s to `from`, reserves refCount for motionCount motions.
+        internal static TMPMotionAnimator GetForUv3Pattern(TMP_Text text, int charIndex, int motionCount, Vector2 from)
+        {
+            var animator = Get(text);
+            animator.EnsureCapacity(charIndex + 1);
+            animator.refCount += motionCount - 1;
+
+            ref var info = ref animator.charInfoArray[charIndex];
+            info.uv3BL = from;
+            info.uv3TL = from;
+            info.uv3TR = from;
+            info.uv3BR = from;
+            animator.SetDirty();
 
             return animator;
         }
@@ -147,13 +175,20 @@ namespace amenone.litmotiontext
         }
 #endif
 
+        // TMP vertex order per quad: BL=0, TL=1, TR=2, BR=3
         internal struct CharInfo
         {
             public Vector3 position;
             public Vector3 scale;
             public Quaternion rotation;
-            public Color color;
-            public Vector2 uv3;
+            public Color colorBL;
+            public Color colorTL;
+            public Color colorTR;
+            public Color colorBR;
+            public Vector2 uv3BL;
+            public Vector2 uv3TL;
+            public Vector2 uv3TR;
+            public Vector2 uv3BR;
 #if LITMOTION_TMP_TANGENT_OVERRIDE
             public Vector4 tangent;
 #endif
@@ -169,14 +204,14 @@ namespace amenone.litmotiontext
         private Vector4 initialTangent = Vector4.zero;
 #endif
 
-        public void SetInitialAlpha( float alpha)
+        public void SetInitialAlpha(float alpha)
         {
             initialColor = Color.white;
             initialAlpha = alpha;
             Reset();
         }
 
-        public void SetInitialCol( Color col)
+        public void SetInitialCol(Color col)
         {
             initialColor = col;
             initialAlpha = -1;
@@ -189,13 +224,13 @@ namespace amenone.litmotiontext
             Reset();
         }
 
-        public void SetInitialScale( Vector3 scale)
+        public void SetInitialScale(Vector3 scale)
         {
             initialScale = scale;
             Reset();
         }
 
-        public void SetInitialPosition( Vector3 pos)
+        public void SetInitialPosition(Vector3 pos)
         {
             initialPosition = pos;
             Reset();
@@ -206,6 +241,7 @@ namespace amenone.litmotiontext
             initialUV3 = uv3;
             Reset();
         }
+
 #if LITMOTION_TMP_TANGENT_OVERRIDE
         public void SetInitialTangent(Vector4 tangent)
         {
@@ -218,16 +254,7 @@ namespace amenone.litmotiontext
         {
             charInfoArray = new CharInfo[32];
             for (int i = 0; i < charInfoArray.Length; i++)
-            {
-                SetInitialColor(i);
-                charInfoArray[i].rotation = initialRotation;
-                charInfoArray[i].scale = initialScale;
-                charInfoArray[i].position = initialPosition;
-                charInfoArray[i].uv3 = initialUV3;
-#if LITMOTION_TMP_TANGENT_OVERRIDE
-                charInfoArray[i].tangent = initialTangent;
-#endif
-            }
+                InitializeCharInfo(i);
 
             updateAction = UpdateCore;
             completeAction = CompleteCore;
@@ -246,67 +273,57 @@ namespace amenone.litmotiontext
         public void EnsureCapacity(int length)
         {
             var prevLength = charInfoArray.Length;
-            if (length > prevLength)
-            {
-                Array.Resize(ref charInfoArray, length);
+            if (length <= prevLength) return;
 
-                if (length > prevLength)
-                {
-                    for (int i = prevLength; i < length; i++)
-                    {
-                        SetInitialColor(i);
-                        charInfoArray[i].rotation = initialRotation;
-                        charInfoArray[i].scale = initialScale;
-                        charInfoArray[i].position = initialPosition;
-                        charInfoArray[i].uv3 = initialUV3;
-#if LITMOTION_TMP_TANGENT_OVERRIDE
-                        charInfoArray[i].tangent = initialTangent;
-#endif
-                    }
-                }
-            }
+            Array.Resize(ref charInfoArray, length);
+            for (int i = prevLength; i < length; i++)
+                InitializeCharInfo(i);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Update()
-        {
-            TryUpdate();
-        }
+        public void Update() => TryUpdate();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetDirty()
-        {
-            isDirty = true;
-        }
+        public void SetDirty() => isDirty = true;
 
         public void Reset()
         {
             for (int i = 0; i < charInfoArray.Length; i++)
-            {
-                SetInitialColor(i);
-                charInfoArray[i].rotation = initialRotation;
-                charInfoArray[i].scale = initialScale;
-                charInfoArray[i].position = initialPosition;
-                charInfoArray[i].uv3 = initialUV3;
-#if LITMOTION_TMP_TANGENT_OVERRIDE
-                charInfoArray[i].tangent = initialTangent;
-#endif
-            }
+                InitializeCharInfo(i);
 
             isDirty = false;
         }
 
-        private void SetInitialColor(int i)
+        private void InitializeCharInfo(int i)
         {
-            if( initialAlpha >= 0f )
-            {
-                var col = GetTextMeshColor(i);
-                col.a = initialAlpha;
-                charInfoArray[i].color = col;
-            }
-            else charInfoArray[i].color = initialColor;
+            SetInitialColor(i);
+            charInfoArray[i].rotation = initialRotation;
+            charInfoArray[i].scale = initialScale;
+            charInfoArray[i].position = initialPosition;
+            charInfoArray[i].uv3BL = initialUV3;
+            charInfoArray[i].uv3TL = initialUV3;
+            charInfoArray[i].uv3TR = initialUV3;
+            charInfoArray[i].uv3BR = initialUV3;
+#if LITMOTION_TMP_TANGENT_OVERRIDE
+            charInfoArray[i].tangent = initialTangent;
+#endif
         }
 
+        private void SetInitialColor(int i)
+        {
+            Color col;
+            if (initialAlpha >= 0f)
+            {
+                col = GetTextMeshColor(i);
+                col.a = initialAlpha;
+            }
+            else col = initialColor;
+
+            charInfoArray[i].colorBL = col;
+            charInfoArray[i].colorTL = col;
+            charInfoArray[i].colorTR = col;
+            charInfoArray[i].colorBR = col;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         bool TryUpdate()
@@ -326,29 +343,20 @@ namespace amenone.litmotiontext
         {
             var textInfo = target.textInfo;
 
-            // Check if index is within bounds
             if (index < 0 || index >= textInfo.characterInfo.Length)
-            {
                 return Color.white;
-            }
 
             var charInfo = textInfo.characterInfo[index];
             var materialIndex = charInfo.materialReferenceIndex;
 
-            // Check if materialIndex is within bounds
             if (materialIndex < 0 || materialIndex >= textInfo.meshInfo.Length)
-            {
                 return Color.white;
-            }
 
             var colors = textInfo.meshInfo[materialIndex].colors32;
             var vertexIndex = charInfo.vertexIndex;
 
-            // Check if vertexIndex is within bounds
             if (vertexIndex < 0 || vertexIndex >= colors.Length)
-            {
                 return Color.white;
-            }
 
             return colors[vertexIndex];
         }
@@ -374,23 +382,20 @@ namespace amenone.litmotiontext
 #if LITMOTION_TMP_TANGENT_OVERRIDE
                 ref var tangent = ref textInfo.meshInfo[materialIndex].tangents;
 #endif
-                var charColor = motionCharInfo.color;
-                for (int n = 0; n < 4; n++)
-                {
-                    colors[vertexIndex + n] = charColor;
-                }
+                colors[vertexIndex + 0] = motionCharInfo.colorBL;
+                colors[vertexIndex + 1] = motionCharInfo.colorTL;
+                colors[vertexIndex + 2] = motionCharInfo.colorTR;
+                colors[vertexIndex + 3] = motionCharInfo.colorBR;
 
-                var charuv3 = motionCharInfo.uv3;
-                for (int n = 0; n < 4; n++)
-                {
-                    uv3[vertexIndex + n] = charuv3;
-                }
+                uv3[vertexIndex + 0] = motionCharInfo.uv3BL;
+                uv3[vertexIndex + 1] = motionCharInfo.uv3TL;
+                uv3[vertexIndex + 2] = motionCharInfo.uv3TR;
+                uv3[vertexIndex + 3] = motionCharInfo.uv3BR;
+
 #if LITMOTION_TMP_TANGENT_OVERRIDE
                 var charTangent = motionCharInfo.tangent;
                 for (int n = 0; n < 4; n++)
-                {
                     tangent[vertexIndex + n] = charTangent;
-                }
 #endif
 
                 var verts = textInfo.meshInfo[materialIndex].vertices;
@@ -422,6 +427,7 @@ namespace amenone.litmotiontext
             }
             isDirty = false;
         }
+
         void CompleteCore()
         {
             UpdateCore();
@@ -429,4 +435,3 @@ namespace amenone.litmotiontext
         }
     }
 }
-
