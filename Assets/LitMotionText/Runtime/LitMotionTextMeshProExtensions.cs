@@ -84,6 +84,21 @@ namespace amenone.litmotiontext
             });
         }
 
+        public static MotionHandle BindToTMPCharColorBL<TOptions, TAdapter>(this MotionBuilder<Color, TOptions, TAdapter> builder, TMP_Text text, int charIndex, Color initialValue)
+            where TOptions : unmanaged, IMotionOptions
+            where TAdapter : unmanaged, IMotionAdapter<Color, TOptions>
+        {
+            Error.IsNull(text);
+            var animator = TMPMotionAnimator.Get(text);
+            animator.EnsureCapacity(charIndex + 1);
+            animator.SetInitialColBL(initialValue);
+            return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
+            {
+                animator.charInfoArray[charIndex.Value].colorBL = x;
+                animator.SetDirty();
+            });
+        }
+
         public static MotionHandle BindToTMPCharColorTL<TOptions, TAdapter>(this MotionBuilder<Color, TOptions, TAdapter> builder, TMP_Text text, int charIndex)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<Color, TOptions>
@@ -91,6 +106,21 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
+            return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
+            {
+                animator.charInfoArray[charIndex.Value].colorTL = x;
+                animator.SetDirty();
+            });
+        }
+
+        public static MotionHandle BindToTMPCharColorTL<TOptions, TAdapter>(this MotionBuilder<Color, TOptions, TAdapter> builder, TMP_Text text, int charIndex, Color initialValue)
+            where TOptions : unmanaged, IMotionOptions
+            where TAdapter : unmanaged, IMotionAdapter<Color, TOptions>
+        {
+            Error.IsNull(text);
+            var animator = TMPMotionAnimator.Get(text);
+            animator.EnsureCapacity(charIndex + 1);
+            animator.SetInitialColTL(initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].colorTL = x;
@@ -112,6 +142,21 @@ namespace amenone.litmotiontext
             });
         }
 
+        public static MotionHandle BindToTMPCharColorTR<TOptions, TAdapter>(this MotionBuilder<Color, TOptions, TAdapter> builder, TMP_Text text, int charIndex, Color initialValue)
+            where TOptions : unmanaged, IMotionOptions
+            where TAdapter : unmanaged, IMotionAdapter<Color, TOptions>
+        {
+            Error.IsNull(text);
+            var animator = TMPMotionAnimator.Get(text);
+            animator.EnsureCapacity(charIndex + 1);
+            animator.SetInitialColTR(initialValue);
+            return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
+            {
+                animator.charInfoArray[charIndex.Value].colorTR = x;
+                animator.SetDirty();
+            });
+        }
+
         public static MotionHandle BindToTMPCharColorBR<TOptions, TAdapter>(this MotionBuilder<Color, TOptions, TAdapter> builder, TMP_Text text, int charIndex)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<Color, TOptions>
@@ -119,6 +164,21 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
+            return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
+            {
+                animator.charInfoArray[charIndex.Value].colorBR = x;
+                animator.SetDirty();
+            });
+        }
+
+        public static MotionHandle BindToTMPCharColorBR<TOptions, TAdapter>(this MotionBuilder<Color, TOptions, TAdapter> builder, TMP_Text text, int charIndex, Color initialValue)
+            where TOptions : unmanaged, IMotionOptions
+            where TAdapter : unmanaged, IMotionAdapter<Color, TOptions>
+        {
+            Error.IsNull(text);
+            var animator = TMPMotionAnimator.Get(text);
+            animator.EnsureCapacity(charIndex + 1);
+            animator.SetInitialColBR(initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].colorBR = x;

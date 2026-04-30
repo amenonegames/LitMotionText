@@ -194,7 +194,10 @@ namespace amenone.litmotiontext
 #endif
         }
 
-        private Color initialColor = Color.white;
+        private Color initialColorBL = Color.white;
+        private Color initialColorTL = Color.white;
+        private Color initialColorTR = Color.white;
+        private Color initialColorBR = Color.white;
         private float initialAlpha = -1f;
         private Quaternion initialRotation = Quaternion.identity;
         private Vector3 initialScale = Vector3.one;
@@ -206,17 +209,28 @@ namespace amenone.litmotiontext
 
         public void SetInitialAlpha(float alpha)
         {
-            initialColor = Color.white;
+            initialColorBL = Color.white;
+            initialColorTL = Color.white;
+            initialColorTR = Color.white;
+            initialColorBR = Color.white;
             initialAlpha = alpha;
             Reset();
         }
 
         public void SetInitialCol(Color col)
         {
-            initialColor = col;
+            initialColorBL = col;
+            initialColorTL = col;
+            initialColorTR = col;
+            initialColorBR = col;
             initialAlpha = -1;
             Reset();
         }
+
+        public void SetInitialColBL(Color col) { initialColorBL = col; initialAlpha = -1; Reset(); }
+        public void SetInitialColTL(Color col) { initialColorTL = col; initialAlpha = -1; Reset(); }
+        public void SetInitialColTR(Color col) { initialColorTR = col; initialAlpha = -1; Reset(); }
+        public void SetInitialColBR(Color col) { initialColorBR = col; initialAlpha = -1; Reset(); }
 
         public void SetInitialRotation(Quaternion rot)
         {
@@ -311,18 +325,22 @@ namespace amenone.litmotiontext
 
         private void SetInitialColor(int i)
         {
-            Color col;
             if (initialAlpha >= 0f)
             {
-                col = GetTextMeshColor(i);
+                var col = GetTextMeshColor(i);
                 col.a = initialAlpha;
+                charInfoArray[i].colorBL = col;
+                charInfoArray[i].colorTL = col;
+                charInfoArray[i].colorTR = col;
+                charInfoArray[i].colorBR = col;
             }
-            else col = initialColor;
-
-            charInfoArray[i].colorBL = col;
-            charInfoArray[i].colorTL = col;
-            charInfoArray[i].colorTR = col;
-            charInfoArray[i].colorBR = col;
+            else
+            {
+                charInfoArray[i].colorBL = initialColorBL;
+                charInfoArray[i].colorTL = initialColorTL;
+                charInfoArray[i].colorTR = initialColorTR;
+                charInfoArray[i].colorBR = initialColorBR;
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
