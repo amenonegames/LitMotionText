@@ -153,6 +153,7 @@ namespace amenone.litmotiontext
             public Vector3 scale;
             public Quaternion rotation;
             public Color color;
+            public ColorPattern colorPattern;
             public Vector2 uv3;
 #if LITMOTION_TMP_TANGENT_OVERRIDE
             public Vector4 tangent;
@@ -220,6 +221,7 @@ namespace amenone.litmotiontext
             for (int i = 0; i < charInfoArray.Length; i++)
             {
                 SetInitialColor(i);
+                charInfoArray[i].colorPattern = ColorPattern.Uniform;
                 charInfoArray[i].rotation = initialRotation;
                 charInfoArray[i].scale = initialScale;
                 charInfoArray[i].position = initialPosition;
@@ -255,6 +257,7 @@ namespace amenone.litmotiontext
                     for (int i = prevLength; i < length; i++)
                     {
                         SetInitialColor(i);
+                        charInfoArray[i].colorPattern = ColorPattern.Uniform;
                         charInfoArray[i].rotation = initialRotation;
                         charInfoArray[i].scale = initialScale;
                         charInfoArray[i].position = initialPosition;
@@ -284,6 +287,7 @@ namespace amenone.litmotiontext
             for (int i = 0; i < charInfoArray.Length; i++)
             {
                 SetInitialColor(i);
+                charInfoArray[i].colorPattern = ColorPattern.Uniform;
                 charInfoArray[i].rotation = initialRotation;
                 charInfoArray[i].scale = initialScale;
                 charInfoArray[i].position = initialPosition;
@@ -305,6 +309,11 @@ namespace amenone.litmotiontext
                 charInfoArray[i].color = col;
             }
             else charInfoArray[i].color = initialColor;
+        }
+
+        internal void SetColorPattern(int charIndex, ColorPattern pattern)
+        {
+            charInfoArray[charIndex].colorPattern = pattern;
         }
 
 
@@ -374,11 +383,7 @@ namespace amenone.litmotiontext
 #if LITMOTION_TMP_TANGENT_OVERRIDE
                 ref var tangent = ref textInfo.meshInfo[materialIndex].tangents;
 #endif
-                var charColor = motionCharInfo.color;
-                for (int n = 0; n < 4; n++)
-                {
-                    colors[vertexIndex + n] = charColor;
-                }
+                ColorPatternHelper.Apply(colors, vertexIndex, motionCharInfo.color, motionCharInfo.colorPattern);
 
                 var charuv3 = motionCharInfo.uv3;
                 for (int n = 0; n < 4; n++)

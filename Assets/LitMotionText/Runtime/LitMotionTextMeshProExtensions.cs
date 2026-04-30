@@ -22,7 +22,7 @@ namespace amenone.litmotiontext
         /// <param name="text">Target TMP_Text</param>
         /// <param name="charIndex">Target character index</param>
         /// <returns>Handle of the created motion data.</returns>
-        public static MotionHandle BindToTMPCharColorCustom<TOptions, TAdapter>(this MotionBuilder<Color, TOptions, TAdapter> builder, TMP_Text text, int charIndex)
+        public static MotionHandle BindToTMPCharColorCustom<TOptions, TAdapter>(this MotionBuilder<Color, TOptions, TAdapter> builder, TMP_Text text, int charIndex, ColorPattern colorPattern = ColorPattern.Uniform)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<Color, TOptions>
         {
@@ -30,6 +30,7 @@ namespace amenone.litmotiontext
 
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
+            animator.SetColorPattern(charIndex, colorPattern);
 
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
@@ -40,7 +41,7 @@ namespace amenone.litmotiontext
             return handle;
         }
 
-        public static MotionHandle BindToTMPCharColorCustom<TOptions, TAdapter>(this MotionBuilder<Color, TOptions, TAdapter> builder, TMP_Text text, int charIndex , Color initialValue)
+        public static MotionHandle BindToTMPCharColorCustom<TOptions, TAdapter>(this MotionBuilder<Color, TOptions, TAdapter> builder, TMP_Text text, int charIndex, Color initialValue, ColorPattern colorPattern = ColorPattern.Uniform)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<Color, TOptions>
         {
@@ -49,7 +50,8 @@ namespace amenone.litmotiontext
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
             animator.SetInitialCol(initialValue);
- 
+            animator.SetColorPattern(charIndex, colorPattern);
+
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].color = x;
@@ -59,7 +61,7 @@ namespace amenone.litmotiontext
             return handle;
         }
 
-        public static MotionHandle BindToTMPCharColorCustomA<TOptions, TAdapter>(this MotionBuilder<float, TOptions, TAdapter> builder, TMP_Text text, int charIndex , float initialValue)
+        public static MotionHandle BindToTMPCharColorCustomA<TOptions, TAdapter>(this MotionBuilder<float, TOptions, TAdapter> builder, TMP_Text text, int charIndex, float initialValue, ColorPattern colorPattern = ColorPattern.Uniform)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<float, TOptions>
         {
@@ -68,6 +70,7 @@ namespace amenone.litmotiontext
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
             animator.SetInitialAlpha(initialValue);
+            animator.SetColorPattern(charIndex, colorPattern);
 
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
@@ -78,7 +81,7 @@ namespace amenone.litmotiontext
             return handle;
         }
 
-        public static MotionHandle BindToTMPCharColorCustomA<TOptions, TAdapter>(this MotionBuilder<float, TOptions, TAdapter> builder, TMP_Text text, int charIndex , Color initialValue)
+        public static MotionHandle BindToTMPCharColorCustomA<TOptions, TAdapter>(this MotionBuilder<float, TOptions, TAdapter> builder, TMP_Text text, int charIndex, Color initialValue, ColorPattern colorPattern = ColorPattern.Uniform)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<float, TOptions>
         {
@@ -87,6 +90,7 @@ namespace amenone.litmotiontext
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
             animator.SetInitialCol(initialValue);
+            animator.SetColorPattern(charIndex, colorPattern);
 
             var handle = builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
