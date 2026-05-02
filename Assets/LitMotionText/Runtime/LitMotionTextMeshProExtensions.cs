@@ -248,7 +248,7 @@ namespace amenone.litmotiontext
             });
         }
 
-        public static MotionHandle BindToTMPCharUv3BL<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex)
+        public static MotionHandle BindToTMPCharUv3CustomBL<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<Vector2, TOptions>
         {
@@ -262,7 +262,7 @@ namespace amenone.litmotiontext
             });
         }
 
-        public static MotionHandle BindToTMPCharUv3TL<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex)
+        public static MotionHandle BindToTMPCharUv3CustomTL<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<Vector2, TOptions>
         {
@@ -276,7 +276,7 @@ namespace amenone.litmotiontext
             });
         }
 
-        public static MotionHandle BindToTMPCharUv3TR<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex)
+        public static MotionHandle BindToTMPCharUv3CustomTR<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<Vector2, TOptions>
         {
@@ -290,7 +290,7 @@ namespace amenone.litmotiontext
             });
         }
 
-        public static MotionHandle BindToTMPCharUv3BR<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex)
+        public static MotionHandle BindToTMPCharUv3CustomBR<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<Vector2, TOptions>
         {
