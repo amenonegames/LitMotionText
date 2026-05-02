@@ -262,6 +262,21 @@ namespace amenone.litmotiontext
             });
         }
 
+        public static MotionHandle BindToTMPCharUv3CustomBL<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex, Vector2 initialValue)
+            where TOptions : unmanaged, IMotionOptions
+            where TAdapter : unmanaged, IMotionAdapter<Vector2, TOptions>
+        {
+            Error.IsNull(text);
+            var animator = TMPMotionAnimator.Get(text);
+            animator.EnsureCapacity(charIndex + 1);
+            animator.SetInitialUV3BL(initialValue);
+            return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
+            {
+                animator.charInfoArray[charIndex.Value].uv3BL = x;
+                animator.SetDirty();
+            });
+        }
+
         public static MotionHandle BindToTMPCharUv3CustomTL<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<Vector2, TOptions>
@@ -269,6 +284,21 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
+            return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
+            {
+                animator.charInfoArray[charIndex.Value].uv3TL = x;
+                animator.SetDirty();
+            });
+        }
+
+        public static MotionHandle BindToTMPCharUv3CustomTL<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex, Vector2 initialValue)
+            where TOptions : unmanaged, IMotionOptions
+            where TAdapter : unmanaged, IMotionAdapter<Vector2, TOptions>
+        {
+            Error.IsNull(text);
+            var animator = TMPMotionAnimator.Get(text);
+            animator.EnsureCapacity(charIndex + 1);
+            animator.SetInitialUV3TL(initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].uv3TL = x;
@@ -290,6 +320,21 @@ namespace amenone.litmotiontext
             });
         }
 
+        public static MotionHandle BindToTMPCharUv3CustomTR<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex, Vector2 initialValue)
+            where TOptions : unmanaged, IMotionOptions
+            where TAdapter : unmanaged, IMotionAdapter<Vector2, TOptions>
+        {
+            Error.IsNull(text);
+            var animator = TMPMotionAnimator.Get(text);
+            animator.EnsureCapacity(charIndex + 1);
+            animator.SetInitialUV3TR(initialValue);
+            return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
+            {
+                animator.charInfoArray[charIndex.Value].uv3TR = x;
+                animator.SetDirty();
+            });
+        }
+
         public static MotionHandle BindToTMPCharUv3CustomBR<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex)
             where TOptions : unmanaged, IMotionOptions
             where TAdapter : unmanaged, IMotionAdapter<Vector2, TOptions>
@@ -297,6 +342,21 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
+            return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
+            {
+                animator.charInfoArray[charIndex.Value].uv3BR = x;
+                animator.SetDirty();
+            });
+        }
+
+        public static MotionHandle BindToTMPCharUv3CustomBR<TOptions, TAdapter>(this MotionBuilder<Vector2, TOptions, TAdapter> builder, TMP_Text text, int charIndex, Vector2 initialValue)
+            where TOptions : unmanaged, IMotionOptions
+            where TAdapter : unmanaged, IMotionAdapter<Vector2, TOptions>
+        {
+            Error.IsNull(text);
+            var animator = TMPMotionAnimator.Get(text);
+            animator.EnsureCapacity(charIndex + 1);
+            animator.SetInitialUV3BR(initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].uv3BR = x;

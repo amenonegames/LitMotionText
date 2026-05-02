@@ -202,7 +202,10 @@ namespace amenone.litmotiontext
         private Quaternion initialRotation = Quaternion.identity;
         private Vector3 initialScale = Vector3.one;
         private Vector3 initialPosition = Vector3.zero;
-        private Vector2 initialUV3 = Vector2.zero;
+        private Vector2 initialUV3BL = Vector2.zero;
+        private Vector2 initialUV3TL = Vector2.zero;
+        private Vector2 initialUV3TR = Vector2.zero;
+        private Vector2 initialUV3BR = Vector2.zero;
 #if LITMOTION_TMP_TANGENT_OVERRIDE
         private Vector4 initialTangent = Vector4.zero;
 #endif
@@ -252,9 +255,17 @@ namespace amenone.litmotiontext
 
         public void SetInitialUV3(Vector2 uv3)
         {
-            initialUV3 = uv3;
+            initialUV3BL = uv3;
+            initialUV3TL = uv3;
+            initialUV3TR = uv3;
+            initialUV3BR = uv3;
             Reset();
         }
+
+        public void SetInitialUV3BL(Vector2 uv3) { initialUV3BL = uv3; Reset(); }
+        public void SetInitialUV3TL(Vector2 uv3) { initialUV3TL = uv3; Reset(); }
+        public void SetInitialUV3TR(Vector2 uv3) { initialUV3TR = uv3; Reset(); }
+        public void SetInitialUV3BR(Vector2 uv3) { initialUV3BR = uv3; Reset(); }
 
 #if LITMOTION_TMP_TANGENT_OVERRIDE
         public void SetInitialTangent(Vector4 tangent)
@@ -314,10 +325,10 @@ namespace amenone.litmotiontext
             charInfoArray[i].rotation = initialRotation;
             charInfoArray[i].scale = initialScale;
             charInfoArray[i].position = initialPosition;
-            charInfoArray[i].uv3BL = initialUV3;
-            charInfoArray[i].uv3TL = initialUV3;
-            charInfoArray[i].uv3TR = initialUV3;
-            charInfoArray[i].uv3BR = initialUV3;
+            charInfoArray[i].uv3BL = initialUV3BL;
+            charInfoArray[i].uv3TL = initialUV3TL;
+            charInfoArray[i].uv3TR = initialUV3TR;
+            charInfoArray[i].uv3BR = initialUV3BR;
 #if LITMOTION_TMP_TANGENT_OVERRIDE
             charInfoArray[i].tangent = initialTangent;
 #endif
