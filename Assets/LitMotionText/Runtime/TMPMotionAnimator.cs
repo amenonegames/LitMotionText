@@ -99,12 +99,17 @@ namespace amenone.litmotiontext
 
         internal static void Return(TMPMotionAnimator animator)
         {
+            Array.Clear(animator.vertexCallbackArray, 0, animator.vertexCallbackArray.Length);
+
             animator.nextNode = rootNode;
             rootNode = animator;
 
             textToAnimator.Remove(animator.target);
             animator.target = null;
         }
+
+        internal static bool TryGetExisting(TMP_Text text, out TMPMotionAnimator animator)
+            => textToAnimator.TryGetValue(text, out animator);
 
         static readonly Dictionary<TMP_Text, TMPMotionAnimator> textToAnimator = new();
         static TMPMotionAnimator[] animators = new TMPMotionAnimator[8];
@@ -278,6 +283,7 @@ namespace amenone.litmotiontext
         public TMPMotionAnimator()
         {
             charInfoArray = new CharInfo[32];
+            vertexCallbackArray = new Action<Color, Vector3>[charInfoArray.Length * 4];
             for (int i = 0; i < charInfoArray.Length; i++)
                 InitializeCharInfo(i);
 
@@ -289,6 +295,7 @@ namespace amenone.litmotiontext
         internal readonly Action updateAction;
         internal readonly Action completeAction;
         internal CharInfo[] charInfoArray;
+        internal Action<Color, Vector3>[] vertexCallbackArray;
         bool isDirty;
         int refCount;
 
@@ -301,8 +308,15 @@ namespace amenone.litmotiontext
             if (length <= prevLength) return;
 
             Array.Resize(ref charInfoArray, length);
+            Array.Resize(ref vertexCallbackArray, length * 4);
             for (int i = prevLength; i < length; i++)
                 InitializeCharInfo(i);
+        }
+
+        public void SetVertexCallback(int charIndex, int vertexOffset, Action<Color, Vector3> callback)
+        {
+            EnsureCapacity(charIndex + 1);
+            vertexCallbackArray[charIndex * 4 + vertexOffset] = callback;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -441,6 +455,12 @@ namespace amenone.litmotiontext
                         charRotation * new Vector3(dir.x * charScale.x, dir.y * charScale.y, dir.z * charScale.z) +
                         charOffset;
                 }
+
+                var callbackBase = i * 4;
+                vertexCallbackArray[callbackBase]?.Invoke(motionCharInfo.colorBL, verts[vertexIndex]);
+                vertexCallbackArray[callbackBase + 1]?.Invoke(motionCharInfo.colorTL, verts[vertexIndex + 1]);
+                vertexCallbackArray[callbackBase + 2]?.Invoke(motionCharInfo.colorTR, verts[vertexIndex + 2]);
+                vertexCallbackArray[callbackBase + 3]?.Invoke(motionCharInfo.colorBR, verts[vertexIndex + 3]);
             }
 
             for (int i = 0; i < textInfo.materialCount; i++)

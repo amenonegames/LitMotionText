@@ -1,3 +1,4 @@
+using System;
 using LitMotion;
 using LitMotion.Extensions;
 using TMPro;
@@ -595,6 +596,34 @@ namespace amenone.litmotiontext
                 animator.charInfoArray[charIndex.Value].scale.z = x;
                 animator.SetDirty();
             });
+        }
+
+        public static void BindToTMPCharVertexCallbackBL(this TMP_Text text, int charIndex, Action<Color, Vector3> callback)
+        {
+            Error.IsNull(text);
+            if (!TMPMotionAnimator.TryGetExisting(text, out var animator)) return;
+            animator.SetVertexCallback(charIndex, 0, callback);
+        }
+
+        public static void BindToTMPCharVertexCallbackTL(this TMP_Text text, int charIndex, Action<Color, Vector3> callback)
+        {
+            Error.IsNull(text);
+            if (!TMPMotionAnimator.TryGetExisting(text, out var animator)) return;
+            animator.SetVertexCallback(charIndex, 1, callback);
+        }
+
+        public static void BindToTMPCharVertexCallbackTR(this TMP_Text text, int charIndex, Action<Color, Vector3> callback)
+        {
+            Error.IsNull(text);
+            if (!TMPMotionAnimator.TryGetExisting(text, out var animator)) return;
+            animator.SetVertexCallback(charIndex, 2, callback);
+        }
+
+        public static void BindToTMPCharVertexCallbackBR(this TMP_Text text, int charIndex, Action<Color, Vector3> callback)
+        {
+            Error.IsNull(text);
+            if (!TMPMotionAnimator.TryGetExisting(text, out var animator)) return;
+            animator.SetVertexCallback(charIndex, 3, callback);
         }
     }
 }
