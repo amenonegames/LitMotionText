@@ -38,7 +38,7 @@ namespace amenone.litmotiontext
         {
             if (textToAnimator.TryGetValue(text, out var animator))
             {
-                animator.Reset();
+                if(animator.refCount<=0) animator.Reset();
                 animator.refCount++;
                 return animator;
             }
@@ -199,84 +199,68 @@ namespace amenone.litmotiontext
 #endif
         }
 
-        private Color initialColorBL = Color.white;
-        private Color initialColorTL = Color.white;
-        private Color initialColorTR = Color.white;
-        private Color initialColorBR = Color.white;
-        private float initialAlpha = -1f;
-        private Quaternion initialRotation = Quaternion.identity;
-        private Vector3 initialScale = Vector3.one;
-        private Vector3 initialPosition = Vector3.zero;
-        private Vector2 initialUV3BL = Vector2.zero;
-        private Vector2 initialUV3TL = Vector2.zero;
-        private Vector2 initialUV3TR = Vector2.zero;
-        private Vector2 initialUV3BR = Vector2.zero;
-#if LITMOTION_TMP_TANGENT_OVERRIDE
-        private Vector4 initialTangent = Vector4.zero;
-#endif
-
-        public void SetInitialAlpha(float alpha)
+        public void SetInitialAlpha(int charIndex, float alpha)
         {
-            initialColorBL = Color.white;
-            initialColorTL = Color.white;
-            initialColorTR = Color.white;
-            initialColorBR = Color.white;
-            initialAlpha = alpha;
-            Reset();
+            var col = GetTextMeshColor(charIndex);
+            col.a = alpha;
+            charInfoArray[charIndex].colorBL = col;
+            charInfoArray[charIndex].colorTL = col;
+            charInfoArray[charIndex].colorTR = col;
+            charInfoArray[charIndex].colorBR = col;
+            SetDirty();
         }
 
-        public void SetInitialCol(Color col)
+        public void SetInitialCol(int charIndex, Color col)
         {
-            initialColorBL = col;
-            initialColorTL = col;
-            initialColorTR = col;
-            initialColorBR = col;
-            initialAlpha = -1;
-            Reset();
+            charInfoArray[charIndex].colorBL = col;
+            charInfoArray[charIndex].colorTL = col;
+            charInfoArray[charIndex].colorTR = col;
+            charInfoArray[charIndex].colorBR = col;
+            SetDirty();
         }
 
-        public void SetInitialColBL(Color col) { initialColorBL = col; initialAlpha = -1; Reset(); }
-        public void SetInitialColTL(Color col) { initialColorTL = col; initialAlpha = -1; Reset(); }
-        public void SetInitialColTR(Color col) { initialColorTR = col; initialAlpha = -1; Reset(); }
-        public void SetInitialColBR(Color col) { initialColorBR = col; initialAlpha = -1; Reset(); }
+        public void SetInitialColBL(int charIndex, Color col) { charInfoArray[charIndex].colorBL = col; SetDirty(); }
+        public void SetInitialColTL(int charIndex, Color col) { charInfoArray[charIndex].colorTL = col; SetDirty(); }
+        public void SetInitialColTR(int charIndex, Color col) { charInfoArray[charIndex].colorTR = col; SetDirty(); }
+        public void SetInitialColBR(int charIndex, Color col) { charInfoArray[charIndex].colorBR = col; SetDirty(); }
 
-        public void SetInitialRotation(Quaternion rot)
+        public void SetInitialRotation(int charIndex, Quaternion rot)
         {
-            initialRotation = rot;
-            Reset();
+            charInfoArray[charIndex].rotation = rot;
+            SetDirty();
         }
 
-        public void SetInitialScale(Vector3 scale)
+        public void SetInitialScale(int charIndex, Vector3 scale)
         {
-            initialScale = scale;
-            Reset();
+            charInfoArray[charIndex].scale = scale;
+            SetDirty();
         }
 
-        public void SetInitialPosition(Vector3 pos)
+        public void SetInitialPosition(int charIndex, Vector3 pos)
         {
-            initialPosition = pos;
-            Reset();
+            charInfoArray[charIndex].position = pos;
+            SetDirty();
         }
 
-        public void SetInitialUV3(Vector2 uv3)
+        public void SetInitialUV3(int charIndex, Vector2 uv3)
         {
-            initialUV3BL = uv3;
-            initialUV3TL = uv3;
-            initialUV3TR = uv3;
-            initialUV3BR = uv3;
-            Reset();
+            charInfoArray[charIndex].uv3BL = uv3;
+            charInfoArray[charIndex].uv3TL = uv3;
+            charInfoArray[charIndex].uv3TR = uv3;
+            charInfoArray[charIndex].uv3BR = uv3;
+            SetDirty();
         }
 
-        public void SetInitialUV3BL(Vector2 uv3) { initialUV3BL = uv3; Reset(); }
-        public void SetInitialUV3TL(Vector2 uv3) { initialUV3TL = uv3; Reset(); }
-        public void SetInitialUV3TR(Vector2 uv3) { initialUV3TR = uv3; Reset(); }
-        public void SetInitialUV3BR(Vector2 uv3) { initialUV3BR = uv3; Reset(); }
+        public void SetInitialUV3BL(int charIndex, Vector2 uv3) { charInfoArray[charIndex].uv3BL = uv3; SetDirty(); }
+        public void SetInitialUV3TL(int charIndex, Vector2 uv3) { charInfoArray[charIndex].uv3TL = uv3; SetDirty(); }
+        public void SetInitialUV3TR(int charIndex, Vector2 uv3) { charInfoArray[charIndex].uv3TR = uv3; SetDirty(); }
+        public void SetInitialUV3BR(int charIndex, Vector2 uv3) { charInfoArray[charIndex].uv3BR = uv3; SetDirty(); }
 
 #if LITMOTION_TMP_TANGENT_OVERRIDE
-        public void SetInitialTangent(Vector4 tangent)
+        public void SetInitialTangent(int charIndex, Vector4 tangent)
         {
-            initialTangent = tangent;
-            Reset();
+            charInfoArray[charIndex].tangent = tangent;
+            SetDirty();
         }
 #endif
 
@@ -335,37 +319,20 @@ namespace amenone.litmotiontext
 
         private void InitializeCharInfo(int i)
         {
-            SetInitialColor(i);
-            charInfoArray[i].rotation = initialRotation;
-            charInfoArray[i].scale = initialScale;
-            charInfoArray[i].position = initialPosition;
-            charInfoArray[i].uv3BL = initialUV3BL;
-            charInfoArray[i].uv3TL = initialUV3TL;
-            charInfoArray[i].uv3TR = initialUV3TR;
-            charInfoArray[i].uv3BR = initialUV3BR;
+            charInfoArray[i].colorBL = Color.white;
+            charInfoArray[i].colorTL = Color.white;
+            charInfoArray[i].colorTR = Color.white;
+            charInfoArray[i].colorBR = Color.white;
+            charInfoArray[i].rotation = Quaternion.identity;
+            charInfoArray[i].scale = Vector3.one;
+            charInfoArray[i].position = Vector3.zero;
+            charInfoArray[i].uv3BL = Vector2.zero;
+            charInfoArray[i].uv3TL = Vector2.zero;
+            charInfoArray[i].uv3TR = Vector2.zero;
+            charInfoArray[i].uv3BR = Vector2.zero;
 #if LITMOTION_TMP_TANGENT_OVERRIDE
-            charInfoArray[i].tangent = initialTangent;
+            charInfoArray[i].tangent = Vector4.zero;
 #endif
-        }
-
-        private void SetInitialColor(int i)
-        {
-            if (initialAlpha >= 0f)
-            {
-                var col = GetTextMeshColor(i);
-                col.a = initialAlpha;
-                charInfoArray[i].colorBL = col;
-                charInfoArray[i].colorTL = col;
-                charInfoArray[i].colorTR = col;
-                charInfoArray[i].colorBR = col;
-            }
-            else
-            {
-                charInfoArray[i].colorBL = initialColorBL;
-                charInfoArray[i].colorTL = initialColorTL;
-                charInfoArray[i].colorTR = initialColorTR;
-                charInfoArray[i].colorBR = initialColorBR;
-            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

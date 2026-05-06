@@ -30,7 +30,7 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.SetInitialCol(initialValue);
+            animator.SetInitialCol(charIndex, initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 ref var info = ref animator.charInfoArray[charIndex.Value];
@@ -46,7 +46,7 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.SetInitialAlpha(initialValue);
+            animator.SetInitialAlpha(charIndex, initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 ref var info = ref animator.charInfoArray[charIndex.Value];
@@ -62,7 +62,7 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.SetInitialCol(initialValue);
+            animator.SetInitialCol(charIndex, initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 ref var info = ref animator.charInfoArray[charIndex.Value];
@@ -92,7 +92,7 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.SetInitialColBL(initialValue);
+            animator.SetInitialColBL(charIndex, initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].colorBL = x;
@@ -121,7 +121,7 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.SetInitialColTL(initialValue);
+            animator.SetInitialColTL(charIndex, initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].colorTL = x;
@@ -150,7 +150,7 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.SetInitialColTR(initialValue);
+            animator.SetInitialColTR(charIndex, initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].colorTR = x;
@@ -179,7 +179,7 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.SetInitialColBR(initialValue);
+            animator.SetInitialColBR(charIndex, initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].colorBR = x;
@@ -209,7 +209,7 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.SetInitialTangent(initialValue);
+            animator.SetInitialTangent(charIndex, initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].tangent = x;
@@ -240,7 +240,7 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.SetInitialUV3(defaultValue);
+            animator.SetInitialUV3(charIndex, defaultValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 ref var info = ref animator.charInfoArray[charIndex.Value];
@@ -270,7 +270,7 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.SetInitialUV3BL(initialValue);
+            animator.SetInitialUV3BL(charIndex, initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].uv3BL = x;
@@ -299,7 +299,7 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.SetInitialUV3TL(initialValue);
+            animator.SetInitialUV3TL(charIndex, initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].uv3TL = x;
@@ -328,7 +328,7 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.SetInitialUV3TR(initialValue);
+            animator.SetInitialUV3TR(charIndex, initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].uv3TR = x;
@@ -357,7 +357,7 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.SetInitialUV3BR(initialValue);
+            animator.SetInitialUV3BR(charIndex, initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].uv3BR = x;
@@ -386,7 +386,7 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.SetInitialPosition(initialValue);
+            animator.SetInitialPosition(charIndex, initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].position = x;
@@ -471,7 +471,7 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.SetInitialRotation(Quaternion.Euler(initialValue));
+            animator.SetInitialRotation(charIndex, Quaternion.Euler(initialValue));
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].rotation = Quaternion.Euler(x);
@@ -548,7 +548,7 @@ namespace amenone.litmotiontext
             Error.IsNull(text);
             var animator = TMPMotionAnimator.Get(text);
             animator.EnsureCapacity(charIndex + 1);
-            animator.SetInitialScale(initialValue);
+            animator.SetInitialScale(charIndex, initialValue);
             return builder.WithOnComplete(animator.completeAction).Bind(animator, Box.Create(charIndex), static (x, animator, charIndex) =>
             {
                 animator.charInfoArray[charIndex.Value].scale = x;
